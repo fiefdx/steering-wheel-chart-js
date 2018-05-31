@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Gauge Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="./steering_wheel.js"></script>
+</head>
+
+<body>
+    <div id="canvas-holder" style="width:30%">
+        <canvas id="chart-speed"></canvas>
+    </div>
+    <div id="canvas-holder" style="width:30%">
+        <canvas id="chart-direction"></canvas>
+    </div>
+    <button id="randomizeData">Randomize Data</button>
+    <script>
+        Chart.defaults.global.animation.duration = 0;
+        Chart.defaults.global.defaultFontSize = 12;
+
+        var configSpeed = {
+            "type": "steering_wheel",
+            "data": {
+                "datasets": [
+                    {
+                        "data": [],
+                        "backgroundColor": [],
+                        "borderWidth": 0,
+                        "hoverBackgroundColor": [],
+                        "hoverBorderWidth": 0
+                    }
+                ],
+                "current": -480,
+            },
+            "options": {
+                "panel": {
+                    "min": 0,
+                    "max": 360,
+                    "scaleBackgroundColor": "rgb(105, 125, 151)",
+                    "scaleOuterRadius": 99,
+                    "scaleInnerRadius": 93,
+                },
+                "needle": {
+                    "lengthRadius": 99,
+                    "circleColor": "rgb(105, 125, 121)",
+                    "color": "rgb(105, 125, 151)",
+                    "circleRadius": 35,
+                    "innerWidth": 20,
+                    "outerWidth": 10,
+                    "textColor": "rgba(0, 0, 0, 1)",
+                    "textSize": 25,
+                },
+                "cutoutPercentage": 85,
+                "rotation": Math.PI/2,
+                "circumference": 2*Math.PI,
+                "legend": {
+                    "display": false,
+                    "text": "legend"
+                },
+                "tooltips": {
+                    "enabled": false
+                },
+                "title": {
+                    "display": false,
+                    "text": "speed",
+                    "position": "bottom"
+                },
+                "animation": {
+                    "animateRotate": false,
+                    "animateScale": false
+                },
+                "hover": {
+                    "mode": null
+                }
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById('chart-speed').getContext('2d');
+            window.speed = new Chart(ctx, configSpeed);
+        };
+
+        document.getElementById('randomizeData').addEventListener('click', function() {
+            configSpeed.data.current = Math.round(Math.random() * 470);
+            window.speed.update();
+        });
+    </script>
+</body>
+
+</html>
